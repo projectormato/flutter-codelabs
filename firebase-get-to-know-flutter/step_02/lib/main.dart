@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import 'src/authentication.dart';
 import 'src/widgets.dart';
+import 'src/Album.dart';
 
 void main() {
   runApp(
@@ -104,6 +105,7 @@ class HomePage extends StatelessWidget {
               ],
             ),
           ),
+          AlbumWidget(),
         ],
       ),
     );
