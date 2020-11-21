@@ -45,6 +45,7 @@ class Authentication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var data = email ?? 'nullやで';
     switch (loginState) {
       case ApplicationLoginState.loggedOut:
         return Row(
@@ -97,7 +98,7 @@ class Authentication extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 24, bottom: 8),
               child: StyledButton(
-                child: Text('LOGOUT'),
+                child: Text('LOGOUT' + data),
                 onPressed: () {
                   signOut();
                 },
