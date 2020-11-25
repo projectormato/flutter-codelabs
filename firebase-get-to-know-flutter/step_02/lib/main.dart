@@ -8,7 +8,9 @@ import 'package:provider/provider.dart';
 
 import 'src/authentication.dart';
 import 'src/widgets.dart';
-import 'src/Album.dart';
+import 'src/album.dart';
+import 'src/guestBook.dart';
+import 'src/guestBookMessage.dart';
 
 void main() {
   runApp(
@@ -78,7 +80,7 @@ class HomePage extends StatelessWidget {
             'Join us for a day full of Firebase Workshops and Pizza!',
           ),
           Paragraph(
-            paragraph(),
+            '新しいパラグラフ追加しちゃった',
           ),
           Consumer<ApplicationState>(
             builder: (context, appState, _) => Column(
@@ -109,10 +111,6 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String paragraph() {
-    return '新しいパラグラフ追加しちゃった';
   }
 }
 
@@ -285,74 +283,6 @@ class ApplicationState extends ChangeNotifier {
   }
 }
 
-class GuestBook extends StatefulWidget {
-  GuestBook({@required this.addMessage, @required this.messages});
-
-  final Future<void> Function(String message) addMessage;
-  final List<GuestBookMessage> messages;
-
-  @override
-  _GuestBookState createState() => _GuestBookState();
-}
-
-class _GuestBookState extends State<GuestBook> {
-  final _formKey = GlobalKey<FormState>(debugLabel: '_GuestBookState');
-  final _controller = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Form(
-            key: _formKey,
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: 'Leave a message',
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Enter your message to continue';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                SizedBox(width: 8),
-                StyledButton(
-                  child: Row(
-                    children: [
-                      Icon(Icons.send),
-                      SizedBox(width: 4),
-                      Text('SEND'),
-                    ],
-                  ),
-                  onPressed: () async {
-                    if (_formKey.currentState.validate()) {
-                      await widget.addMessage(_controller.text);
-                      _controller.clear();
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 8),
-        for (var message in widget.messages)
-          Paragraph('${message.name}: ${message.message}'),
-        SizedBox(height: 8),
-      ],
-    );
-  }
-}
-
 class YesNoSelection extends StatelessWidget {
   const YesNoSelection({@required this.state, @required this.onSelection});
 
@@ -417,13 +347,6 @@ class YesNoSelection extends StatelessWidget {
         );
     }
   }
-}
-
-class GuestBookMessage {
-  GuestBookMessage({@required this.name, @required this.message});
-
-  final String name;
-  final String message;
 }
 
 enum Attending { yes, no, unknown }
